@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  Container,
+  CssBaseline,
+  makeStyles,
+  createMuiTheme,
+  ThemeProvider,
+} from "@material-ui/core";
+
+import { useState } from "react";
+
+import OralExam from "./pages/oral-exam";
+import WrittenExam from "./pages/written-exam";
+
+const useStyles = makeStyles(({ spacing }) => ({
+  root: {
+    marginTop: spacing(3),
+    marginBottom: spacing(3),
+  },
+}));
+
+const theme = createMuiTheme({});
 
 function App() {
+  const classes = useStyles();
+  const [step, setStep] = useState("written");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="md" className={classes.root}>
+          {step === "written" ? (
+            <WrittenExam onNext={() => setStep("oral")} />
+          ) : (
+            <OralExam />
+          )}
+        </Container>
+      </ThemeProvider>
+    </>
   );
 }
 
