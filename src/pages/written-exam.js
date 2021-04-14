@@ -1,14 +1,11 @@
 import { Grid, Typography } from "@material-ui/core";
 import { useState } from "react";
-import { writtenQuestions } from "../api/questions";
 
 import Layout from "../components/Layout";
 
 import QuestionCard from "../components/QuestionCard";
 
-export default function WrittenExam({ onNext, onPrev }) {
-  const questions = writtenQuestions;
-
+export default function WrittenExam({ questions, onNext, onPrev }) {
   const [answered, setAnswered] = useState({});
 
   function answerQuestion(id, answer) {
@@ -34,7 +31,7 @@ export default function WrittenExam({ onNext, onPrev }) {
           </Typography>
         </>
       }
-      onNext={onNext}
+      onNext={() => onNext(answered)}
     >
       <Grid container component="form" direction="column" spacing={3}>
         {questions.map(({ id, question, answers }, index) => (

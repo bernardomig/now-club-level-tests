@@ -1,7 +1,8 @@
 import { Container, makeStyles } from "@material-ui/core";
 import { useState } from "react";
-import OralExam from "./pages/oral-exam";
 import WrittenExam from "./pages/written-exam";
+
+import { writtenQuestions } from "./api/questions";
 
 const useStyles = makeStyles(({ spacing }) => ({
   root: {
@@ -10,18 +11,22 @@ const useStyles = makeStyles(({ spacing }) => ({
   }
 }));
 
+function checkScore(questions, answers) {
+  const numQuestions = questions.length;
+}
+
 function App() {
   const classes = useStyles();
-  const [step, setStep] = useState("written");
 
   return (
     <>
       <Container maxWidth="md" className={classes.root}>
-        {step === "written" ? (
-          <WrittenExam onNext={() => setStep("oral")} />
-        ) : (
-          <OralExam />
-        )}
+        <WrittenExam
+          questions={writtenQuestions}
+          onNext={(answers) =>
+            console.log(checkScore(writtenQuestions, answers))
+          }
+        />
       </Container>
     </>
   );
