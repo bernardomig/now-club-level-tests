@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, ButtonGroup, Box } from "@material-ui/core";
+import { Button, ButtonGroup } from "@material-ui/core";
 import {
   Mic as MicIcon,
   PlayArrow as PlayArrowIcon,
@@ -122,12 +122,12 @@ function RecordingButton({ onStop }) {
       .catch(() => {
         onStop(null);
       });
-  }, []);
+  }, [onStop]);
 
   return (
     <ButtonGroup disableElevation>
       <Button variant="text" disableRipple>
-        Recording {new Number(elapsed).toFixed(1)}
+        Recording {Number(elapsed).toFixed(1)}
         <span style={{ textTransform: "lowercase" }}>s</span>
       </Button>
       <Button
@@ -162,7 +162,6 @@ function PlayingButton({ source, onStop }) {
 
     return () => {
       clearInterval(timer);
-      audioRef.current.pause();
       audioRef.current.remove();
     };
   }, []);

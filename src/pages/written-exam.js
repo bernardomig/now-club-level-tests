@@ -15,8 +15,6 @@ export default function WrittenExam({ onNext, onPrev }) {
     setAnswered({ ...answered, [id]: answer });
   }
 
-  const [allAnswered, setAllAnswered] = useState(false);
-
   useEffect(() => {
     const numQuestions = questions.length;
     const answeredQuestions = questions.filter(({ id }) => answered[id]).length;
