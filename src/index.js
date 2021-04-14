@@ -3,16 +3,19 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import { IntlProvider } from "react-intl";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 
 import theme from "./theme";
 
 ReactDOM.render(
   <React.StrictMode>
-    <CssBaseline />
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <IntlProvider messages={{}} locale={"en"}>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </IntlProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
