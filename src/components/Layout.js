@@ -26,26 +26,30 @@ export default function Layout({
         flexDirection="row"
         justifyContent="space-between"
       >
-        {onPrev && (
-          <Button
-            size="large"
-            variant="text"
-            color="default"
-            onClick={() => onPrev()}
-          >
-            Back
-          </Button>
-        )}
-        {onNext && (
-          <Button
-            size="large"
-            variant="contained"
-            color="primary"
-            onClick={() => onNext()}
-          >
-            Next
-          </Button>
-        )}
+        <Box>
+          {onPrev && (
+            <Button
+              size="large"
+              variant="text"
+              color="default"
+              onClick={() => onPrev()}
+            >
+              Back
+            </Button>
+          )}
+        </Box>
+        <Box>
+          {onNext && (
+            <Button
+              size="large"
+              variant="contained"
+              color="primary"
+              onClick={() => onNext()}
+            >
+              Next
+            </Button>
+          )}
+        </Box>
       </Box>
     </Box>
   );
