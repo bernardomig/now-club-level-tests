@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { writtenQuestions } from "../api/questions";
 
 import Layout from "../components/Layout";
@@ -14,13 +14,6 @@ export default function WrittenExam({ onNext, onPrev }) {
   function answerQuestion(id, answer) {
     setAnswered({ ...answered, [id]: answer });
   }
-
-  useEffect(() => {
-    const numQuestions = questions.length;
-    const answeredQuestions = questions.filter(({ id }) => answered[id]).length;
-
-    setAllAnswered(numQuestions === answeredQuestions);
-  }, [answered, questions]);
 
   return (
     <Layout

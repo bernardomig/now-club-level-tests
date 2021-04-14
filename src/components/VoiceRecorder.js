@@ -160,11 +160,8 @@ function PlayingButton({ source, onStop }) {
       setCurrentTime(audioRef.current.currentTime);
     }, 100);
 
-    return () => {
-      clearInterval(timer);
-      audioRef.current.remove();
-    };
-  }, []);
+    return () => clearInterval(timer);
+  }, [onStop]);
 
   return (
     <>
