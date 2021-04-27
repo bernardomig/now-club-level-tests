@@ -1,21 +1,18 @@
-import React, { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import {
-  Fab,
-  Popover,
-  Typography,
-  List,
   Avatar,
-  ListItem,
   Box,
   Button,
-  ListItemText,
-  Divider,
   ButtonBase,
-  useTheme,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
   makeStyles,
+  Popover,
+  Typography,
 } from "@material-ui/core";
-import { Menu as MenuIcon } from "@material-ui/icons";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState } from "react";
 
 const useStyle = makeStyles(
   ({ spacing, palette: { primary, background, divider }, shadows }) => ({

@@ -29,7 +29,7 @@ export default function WrittenExam({ onSubmit, questions }) {
     if (done) {
       onSubmit(level, answers);
     }
-  }, [done]);
+  }, [done, onSubmit, answers, level]);
 
   return (
     <WrittenExamStep

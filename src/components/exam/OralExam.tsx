@@ -16,18 +16,25 @@ export default function OralExam({
   onSubmit,
 }: {
   questions: any;
-  onSubmit: (answers: Record<string, string>) => void;
+  onSubmit: (answers: Array<{ question_id: string; answer: string }>) => void;
 }) {
   const {
-    register,
     handleSubmit,
-    watch,
     control,
     formState: { errors },
   } = useForm<Record<string, string>>();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit((answers) =>
+        onSubmit(
+          questions.map(({ question_id }) => ({
+            question_id,
+            answer: answers[question_id],
+          }))
+        )
+      )}
+    >
       <Paper>
         <Cell>
           <Typography variant="h3" component="h1">

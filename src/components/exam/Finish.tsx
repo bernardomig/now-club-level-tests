@@ -13,7 +13,7 @@ export default function Finish({
 }) {
   const { spacing } = useTheme();
 
-  const { isAuthenticated, loginWithRedirect, user } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   return (
     <Message

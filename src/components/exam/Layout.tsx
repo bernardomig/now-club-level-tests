@@ -1,4 +1,4 @@
-import { Paper, makeStyles, Theme } from "@material-ui/core";
+import { Paper, makeStyles } from "@material-ui/core";
 
 export function Cell({ children }) {
   const { main } = useStyles();

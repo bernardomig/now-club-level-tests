@@ -24,7 +24,8 @@ export default function Exam({ exam }) {
     step: Steps;
     level: string;
     written: Array<{ question_id: string; answer: string }>;
-  }>("exam", { step: "intro", level: "A1", written: [] });
+    oral: Array<{ question_id: string; answer: string }>;
+  }>("exam", { step: "intro", level: "A1", written: [], oral: [] });
 
   const { step } = state;
 
@@ -44,7 +45,12 @@ export default function Exam({ exam }) {
         />
       )}
       {step === "oral" && (
-        <OralExam questions={exam.oral} onSubmit={() => setStep("finish")} />
+        <OralExam
+          questions={exam.oral}
+          onSubmit={(answers) => {
+            setState({ ...state, step: "finish", oral: answers });
+          }}
+        />
       )}
       {step === "finish" && (
         <Finish
