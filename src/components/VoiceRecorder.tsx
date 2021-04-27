@@ -1,3 +1,5 @@
+/// <reference types="@types/dom-mediacapture-record" />
+
 import React, { useEffect, useRef, useState } from "react";
 import { Button, ButtonGroup } from "@material-ui/core";
 import {
@@ -7,7 +9,7 @@ import {
   Stop as StopIcon,
 } from "@material-ui/icons";
 
-export default function VoiceRecorder() {
+export default function VoiceRecorder({ value, onChange }) {
   const [state, setState] = useState("empty");
   const [audio, setAudio] = useState(null);
 
@@ -19,6 +21,7 @@ export default function VoiceRecorder() {
         onStop={(data) => {
           setAudio(data);
           setState("done");
+          if (onChange) onChange(data);
         }}
       />
     );
@@ -77,8 +80,8 @@ function RecordingButton({ onStop }) {
   const [elapsed, setElapsed] = useState(0);
   const [started, setStarted] = useState(undefined);
 
-  const audioStream = useRef();
-  const mediaRecorder = useRef();
+  const audioStream = useRef<MediaStream>(undefined);
+  const mediaRecorder = useRef<MediaRecorder>();
   const chunks = useRef([]);
 
   useEffect(() => {

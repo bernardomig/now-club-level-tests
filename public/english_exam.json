@@ -1,0 +1,108 @@
+{
+  "language": "english",
+  "created_by": "admin",
+  "created_at": "2021-04-26T11:10:49.709Z",
+  "written": [
+    {
+      "question_id": "d01b3a92-b8fb-4a24-acb7-b79b8193038b",
+      "level": "A1",
+      "question": "John made a sandwich _ he was hungry.",
+      "answers": ["so", "but", "and", "because"],
+      "correct": "because"
+    },
+    {
+      "question_id": "2974c387-b501-4cb1-8f15-c455af3e6b28",
+      "level": "A1",
+      "question": "What time is it? It's _ (11:15).",
+      "answers": [
+        "quarter to eleven",
+        "eleven and fifteen",
+        "eleven fifteen",
+        "fifteen to eleven"
+      ],
+      "correct": "eleven fifteen"
+    },
+    {
+      "question_id": "b84a2192-b035-4069-b15d-4f49e7a46a72",
+      "level": "A2",
+      "question": "I have a good memory. I know all of my _ birthdays.",
+      "answers": ["friend", "friends", "friend's", "friends'"],
+      "correct": "friends'"
+    },
+    {
+      "question_id": "51911696-a7fd-4c87-87b4-ca9b972d117d",
+      "level": "A2",
+      "question": "Hey Linda. _? Great. And you?",
+      "answers": ["Who's up", "How's going", "How's it going", "What's it"],
+      "correct": "How's it going"
+    },
+    {
+      "question_id": "225cf79e-d9be-4f4f-81d4-396bb6ff3827",
+      "level": "B1",
+      "question": "My wife doesn't _ golf. She thinks it's boring.",
+      "answers": ["care about", "take care about", "look after", "care after"],
+      "correct": "care about"
+    },
+    {
+      "question_id": "7c072a71-96a2-4e96-be3b-5f73c8b412d9",
+      "level": "B1",
+      "question": "Is Jose from Spain? I _. I know he speaks Spanish.",
+      "answers": ["think", "think yes", "think so", "think that yes"],
+      "correct": "think so"
+    },
+    {
+      "question_id": "40d8850e-e413-4991-989f-00533c16acc6",
+      "level": "B2",
+      "question": "Generally _, February is the coldest month of the year.",
+      "answers": ["truth", "talking", "considered", "speaking"],
+      "correct": "speaking"
+    },
+    {
+      "question_id": "beaf9ad4-d228-4053-b118-c05f2267fbd0",
+      "level": "B2",
+      "question": "This bookstore has a _ range of books in French.",
+      "answers": ["clear", "perfect", "thick", "broad"],
+      "correct": "broad"
+    },
+    {
+      "question_id": "012b4381-da27-49f2-ae10-346bac1eda91",
+      "level": "C1",
+      "question": "Those under the age of 21 are prohibited _ alcohol.",
+      "answers": ["from drinking", "to drink", "in drinking", "with drinking"],
+      "correct": "to drink"
+    },
+    {
+      "question_id": "653f78b0-7990-47de-ab56-061d590d9c97",
+      "level": "C1",
+      "question": "I wish I _ that last slice of pizza. I'm so full I can hardly move.",
+      "answers": [
+        "hadn't eaten",
+        "haven't eaten",
+        "didn't eat",
+        "wouldn't eat"
+      ],
+      "correct": "haven't eaten"
+    },
+    {
+      "question_id": "05e3f6d5-2878-49f7-948e-c836d0e7b07c",
+      "level": "C1",
+      "question": "If I had money, I _ my wife some jewelry for her birthday last week. But, I don't, so I gave her something I made myself.",
+      "answers": ["would have bought", "bought", "had bought", "would buy"],
+      "correct": "would have bought"
+    }
+  ],
+  "oral": [
+    {
+      "question_id": "0e0e6daf-8b61-4f18-8314-17f2e81507bb",
+      "question": "Tell me about your hobbies."
+    },
+    {
+      "question_id": "0ab30799-f572-454f-b125-aecdeda1760b",
+      "question": "If I gave you a million euros how would your life change?"
+    },
+    {
+      "question_id": "f7e83e00-068e-4b2d-92c6-aa3c7c371a58",
+      "question": "What does the future hold for you?"
+    }
+  ]
+}

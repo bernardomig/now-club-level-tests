@@ -1,21 +1,31 @@
+import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import { Auth0Provider } from "@auth0/auth0-react";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import { IntlProvider } from "react-intl";
-import { CssBaseline, ThemeProvider } from "@material-ui/core";
-
-import theme from "./theme";
+const theme = createMuiTheme({
+  mixins: {
+    toolbar: {
+      minHeight: 48,
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <IntlProvider messages={{}} locale={"en"}>
-      <CssBaseline />
+    <Auth0Provider
+      domain="dev-frq63dwv.eu.auth0.com"
+      clientId="xUfrr6z5dDL4dPsKXquYvg8YZaf0OBrQ"
+      redirectUri={window.location.origin}
+      cacheLocation="localstorage"
+    >
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <App />
       </ThemeProvider>
-    </IntlProvider>
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
