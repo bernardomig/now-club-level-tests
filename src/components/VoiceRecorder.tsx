@@ -1,131 +1,102 @@
 /// <reference types="@types/dom-mediacapture-record" />
 
-import React, { useEffect, useRef, useState } from "react";
-import { Button, ButtonGroup } from "@material-ui/core";
+import { Button, ButtonGroup, Typography } from "@material-ui/core";
 import {
   Mic as MicIcon,
   PlayArrow as PlayArrowIcon,
   Replay as ReplayIcon,
   Stop as StopIcon,
 } from "@material-ui/icons";
+import { useEffect, useRef, useState } from "react";
+import { useMediaRecorder } from "../hooks/media-recorder-hook";
+import { useTimer } from "../hooks/timer-hook";
 
 export default function VoiceRecorder({ value, onChange }) {
-  const [state, setState] = useState("empty");
-  const [audio, setAudio] = useState(null);
+  const [state, setState] = useState<"idle" | "playing" | "recording">("idle");
 
-  if (state === "empty") {
-    return <EmptyRecordingButton onStart={() => setState("recording")} />;
-  } else if (state === "recording") {
-    return (
-      <RecordingButton
-        onStop={(data) => {
-          setAudio(data);
-          setState("done");
-          if (onChange) onChange(data);
-        }}
-      />
-    );
-  } else if (state === "done") {
-    return (
-      <StoppedButton
-        onPlay={() => setState("playing")}
-        onRetry={() => setState("recording")}
-      />
-    );
-  } else if (state === "playing") {
-    return <PlayingButton source={audio} onStop={() => setState("done")} />;
-  }
+  return (
+    <>
+      {state === "idle" && !value && (
+        <Empty onStart={() => setState("recording")} />
+      )}
+      {state === "idle" && value && (
+        <Stopped
+          onPlay={() => setState("playing")}
+          onRetry={() => setState("recording")}
+        />
+      )}
+      {state === "recording" && (
+        <Recording
+          onStop={(media) => {
+            onChange(media);
+            setState("idle");
+          }}
+        />
+      )}
+      {state === "playing" && value && (
+        <Playing source={value} onStop={() => setState("idle")} />
+      )}
+    </>
+  );
 }
 
-function EmptyRecordingButton({ onStart }) {
-  return (
+const Empty = ({ onStart }) => (
+  <Button
+    disableElevation
+    variant="contained"
+    color="primary"
+    startIcon={<MicIcon />}
+    onClick={() => {
+      onStart();
+    }}
+  >
+    Record
+  </Button>
+);
+
+const Stopped = ({ onPlay, onRetry }) => (
+  <ButtonGroup disableElevation>
     <Button
-      disableElevation
+      color="default"
       variant="contained"
-      color="primary"
-      startIcon={<MicIcon />}
-      onClick={() => {
-        onStart();
-      }}
+      startIcon={<PlayArrowIcon />}
+      onClick={() => onPlay()}
     >
-      Record
+      Play
     </Button>
+    <Button
+      color="primary"
+      variant="contained"
+      onClick={() => onRetry()}
+      size="small"
+    >
+      <ReplayIcon />
+    </Button>
+  </ButtonGroup>
+);
+
+function Recording({ onStop }) {
+  const { elapsed, start: startTimer, stop: stopTimer } = useTimer();
+
+  const { error, ready, start, stop, media } = useMediaRecorder(
+    { audio: true },
+    { mimeType: "audio/webm" }
   );
-}
-
-function StoppedButton({ onPlay, onRetry }) {
-  return (
-    <ButtonGroup disableElevation>
-      <Button
-        color="default"
-        variant="contained"
-        startIcon={<PlayArrowIcon />}
-        onClick={() => onPlay()}
-      >
-        Play
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={() => onRetry()}
-        size="small"
-      >
-        <ReplayIcon />
-      </Button>
-    </ButtonGroup>
-  );
-}
-
-function RecordingButton({ onStop }) {
-  const [elapsed, setElapsed] = useState(0);
-  const [started, setStarted] = useState(undefined);
-
-  const audioStream = useRef<MediaStream>(undefined);
-  const mediaRecorder = useRef<MediaRecorder>();
-  const chunks = useRef([]);
 
   useEffect(() => {
-    if (started) {
-      const timer = setInterval(() => {
-        setElapsed((Date.now() - started) / 1000);
-      }, 100);
+    if (media) onStop(media);
+  }, [media, onStop]);
 
-      return () => clearInterval(timer);
+  useEffect(() => {
+    if (ready) {
+      start();
+      startTimer();
     }
-  }, [started]);
+  }, [ready, start, startTimer]);
 
-  useEffect(() => {
-    const constraints = { audio: true, video: false };
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        audioStream.current = stream;
-
-        mediaRecorder.current = new MediaRecorder(audioStream.current, {
-          mimeType: "audio/ogg",
-        });
-
-        mediaRecorder.current.addEventListener("dataavailable", (event) => {
-          if (event.data.size > 0) {
-            chunks.current.push(event.data);
-          }
-        });
-        mediaRecorder.current.addEventListener("stop", (event) => {
-          const audioBuffer = new Blob(chunks.current, { type: "audio/ogg" });
-          const objectUrl = window.URL.createObjectURL(audioBuffer);
-          onStop(objectUrl);
-        });
-
-        mediaRecorder.current.addEventListener("start", (event) => {
-          setStarted(Date.now());
-        });
-
-        mediaRecorder.current.start();
-      })
-      .catch(() => {
-        onStop(null);
-      });
-  }, [onStop]);
+  if (error) {
+    return <Typography>Error: {error}. Try refreshing the browser.</Typography>;
+  }
 
   return (
     <ButtonGroup disableElevation>
@@ -136,7 +107,10 @@ function RecordingButton({ onStop }) {
       <Button
         color="primary"
         variant="contained"
-        onClick={() => mediaRecorder.current.stop()}
+        onClick={() => {
+          stop();
+          stopTimer();
+        }}
         size="small"
       >
         <StopIcon />
@@ -145,19 +119,22 @@ function RecordingButton({ onStop }) {
   );
 }
 
-function PlayingButton({ source, onStop }) {
+function Playing({ source, onStop }) {
   const audioRef = useRef(new Audio(source));
 
   const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    return () => audio.pause();
+  }, []);
 
   useEffect(() => {
     // Because of weird error
     audioRef.current.muted = false;
     audioRef.current.play();
 
-    audioRef.current.addEventListener("ended", () => {
-      onStop();
-    });
+    audioRef.current.addEventListener("ended", () => onStop());
 
     const timer = setInterval(() => {
       setCurrentTime(audioRef.current.currentTime);
@@ -167,23 +144,21 @@ function PlayingButton({ source, onStop }) {
   }, [onStop]);
 
   return (
-    <>
-      <ButtonGroup>
-        <Button variant="text" disableRipple>
-          Playing {Math.round(currentTime * 10) / 10}
-          <span style={{ textTransform: "lowercase" }}>s</span>
-        </Button>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={() => {
-            onStop();
-          }}
-          size="small"
-        >
-          <StopIcon />
-        </Button>
-      </ButtonGroup>
-    </>
+    <ButtonGroup>
+      <Button variant="text" disableRipple>
+        Playing {Math.round(currentTime * 10) / 10}
+        <span style={{ textTransform: "lowercase" }}>s</span>
+      </Button>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={() => {
+          onStop();
+        }}
+        size="small"
+      >
+        <StopIcon />
+      </Button>
+    </ButtonGroup>
   );
 }

@@ -16,8 +16,8 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
-      domain="dev-frq63dwv.eu.auth0.com"
-      clientId="xUfrr6z5dDL4dPsKXquYvg8YZaf0OBrQ"
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENTID}
       redirectUri={window.location.origin}
       cacheLocation="localstorage"
     >
